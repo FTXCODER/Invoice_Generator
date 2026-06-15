@@ -408,8 +408,39 @@ st.dataframe(
 
 st.markdown("---")
 
+# st.subheader(
+#     f"Grand Total : ₹ {grand_total:,.2f}"
+# )
+
 st.subheader(
-    f"Grand Total : ₹ {grand_total:,.2f}"
+    f"Subtotal : ₹ {grand_total:,.2f}"
+)
+
+col1, col2 = st.columns(2)
+
+with col1:
+    discount = st.number_input(
+        "Discount",
+        min_value=0.0,
+        value=0.0
+    )
+
+with col2:
+    advance_pay = st.number_input(
+        "Advance Pay",
+        min_value=0.0,
+        value=0.0
+    )
+
+final_total = grand_total - discount - advance_pay
+
+if final_total < 0:
+    final_total = 0
+
+st.markdown("---")
+
+st.subheader(
+    f"Final Payable : ₹ {final_total:,.2f}"
 )
 
 # -----------Part 5
@@ -417,13 +448,24 @@ st.subheader(
 # PDF GENERATOR
 # ==================================================
 
+# def create_invoice_pdf(
+#         invoice_no,
+#         customer_name,
+#         mobile,
+#         address,
+#         invoice_items,
+#         grand_total
+# ):
 def create_invoice_pdf(
         invoice_no,
         customer_name,
         mobile,
         address,
         invoice_items,
-        grand_total
+        grand_total,
+        discount,
+        advance_pay,
+        final_total
 ):
 
     pdf_file = os.path.join(
@@ -561,13 +603,26 @@ def create_invoice_pdf(
     # GRAND TOTAL
     # ==========================================
 
-    total_text = f"""
-    <b>Grand Total : ₹ {grand_total:,.2f}</b>
+    # total_text = f"""
+    # <b>Grand Total : ₹ {grand_total:,.2f}</b>
+    # """
+
+    # elements.append(
+    #     Paragraph(
+    #         total_text,
+    #         styles["Heading2"]
+    #     )
+    # )
+    summary_text = f"""
+    <b>Subtotal :</b> ₹ {grand_total:,.2f}<br/>
+    <b>Discount :</b> ₹ {discount:,.2f}<br/>
+    <b>Advance Pay :</b> ₹ {advance_pay:,.2f}<br/><br/>
+    <b>Final Payable :</b> ₹ {final_total:,.2f}
     """
 
     elements.append(
         Paragraph(
-            total_text,
+            summary_text,
             styles["Heading2"]
         )
     )
@@ -656,6 +711,16 @@ def upload_to_drive(pdf_path):
 # SAVE TO GOOGLE SHEET
 # ==================================================
 
+# def save_invoice_to_sheet(
+#         invoice_no,
+#         customer_name,
+#         mobile,
+#         address,
+#         invoice_items,
+#         grand_total,
+#         pdf_link
+# ):
+
 def save_invoice_to_sheet(
         invoice_no,
         customer_name,
@@ -663,34 +728,67 @@ def save_invoice_to_sheet(
         address,
         invoice_items,
         grand_total,
+        discount,
+        advance_pay,
+        final_total,
         pdf_link
 ):
 
     sheet = get_sheet()
 
+    # sheet.append_row([
+
+    #     invoice_no,
+
+    #     datetime.now().strftime(
+    #         "%d-%m-%Y"
+    #     ),
+
+    #     customer_name,
+
+    #     mobile,
+
+    #     address,
+
+    #     json.dumps(
+    #         invoice_items,
+    #         default=str
+    #     ),
+
+    #     grand_total,
+
+    #     pdf_link
+
+    # ])
     sheet.append_row([
 
         invoice_no,
-
+    
         datetime.now().strftime(
             "%d-%m-%Y"
         ),
-
+    
         customer_name,
-
+    
         mobile,
-
+    
         address,
-
+    
         json.dumps(
             invoice_items,
             default=str
         ),
-
+    
         grand_total,
-
+    
+        discount,
+    
+        advance_pay,
+    
+        final_total,
+    
         pdf_link
-
+    
     ])
 
 
@@ -733,13 +831,24 @@ if st.button(
             # PDF
             # =====================
 
+            # pdf_file = create_invoice_pdf(
+            #     invoice_no,
+            #     customer_name,
+            #     mobile,
+            #     address,
+            #     invoice_items,
+            #     grand_total
+            # )
             pdf_file = create_invoice_pdf(
                 invoice_no,
                 customer_name,
                 mobile,
                 address,
                 invoice_items,
-                grand_total
+                grand_total,
+                discount,
+                advance_pay,
+                final_total
             )
 
             # =====================
@@ -755,6 +864,15 @@ if st.button(
             # SHEET SAVE
             # =====================
 
+            # save_invoice_to_sheet(
+            #     invoice_no,
+            #     customer_name,
+            #     mobile,
+            #     address,
+            #     invoice_items,
+            #     grand_total,
+            #     pdf_link
+            # )
             save_invoice_to_sheet(
                 invoice_no,
                 customer_name,
@@ -762,6 +880,9 @@ if st.button(
                 address,
                 invoice_items,
                 grand_total,
+                discount,
+                advance_pay,
+                final_total,
                 pdf_link
             )
 
