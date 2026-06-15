@@ -611,7 +611,8 @@ def upload_to_drive(pdf_path):
     file = drive_service.files().create(
         body=file_metadata,
         media_body=media,
-        fields="id"
+        fields="id",
+        supportsAllDrives=True
     ).execute()
 
     file_id = file.get("id")
@@ -621,7 +622,8 @@ def upload_to_drive(pdf_path):
         body={
             "type": "anyone",
             "role": "reader"
-        }
+        },
+        supportsAllDrives=True
     ).execute()
 
     pdf_link = (
