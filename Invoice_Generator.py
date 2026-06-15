@@ -728,9 +728,10 @@ if st.button(
             # DRIVE UPLOAD
             # =====================
 
-            pdf_link = upload_to_drive(
-                pdf_file
-            )
+            # pdf_link = upload_to_drive(
+            #     pdf_file
+            # )
+            pdf_link = "Drive Upload Disabled"
 
             # =====================
             # SHEET SAVE
