@@ -663,7 +663,8 @@ def save_invoice_to_sheet(
         address,
 
         json.dumps(
-            invoice_items
+            invoice_items,
+            default=str
         ),
 
         grand_total,
