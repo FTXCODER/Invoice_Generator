@@ -33,7 +33,13 @@ SPREADSHEET_ID = "1pjyogE1rwuKMkHA64g2SfwmgQIeFQEC7FcSEFEMaE38"
 
 DRIVE_FOLDER_ID = "1gimX8lZxLhQRvXbI-RlDAPOVK7MInhch"
 
-SERVICE_ACCOUNT_FILE = "service_account.json"
+# SERVICE_ACCOUNT_FILE = "service_account.json"
+credentials_info = dict(st.secrets["gcp_service_account"])
+
+credentials = Credentials.from_service_account_info(
+    credentials_info,
+    scopes=scopes
+)
 
 
 # ==================================================
