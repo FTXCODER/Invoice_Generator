@@ -29,17 +29,21 @@ from reportlab.lib.styles import getSampleStyleSheet
 # CONFIGURATION
 # ==================================================
 
-SPREADSHEET_ID = "1pjyogE1rwuKMkHA64g2SfwmgQIeFQEC7FcSEFEMaE38"
+# SPREADSHEET_ID = "1pjyogE1rwuKMkHA64g2SfwmgQIeFQEC7FcSEFEMaE38"
 
-DRIVE_FOLDER_ID = "1gimX8lZxLhQRvXbI-RlDAPOVK7MInhch"
+# DRIVE_FOLDER_ID = "1gimX8lZxLhQRvXbI-RlDAPOVK7MInhch"
+
+SPREADSHEET_ID = st.secrets["SPREADSHEET_ID"]
+
+DRIVE_FOLDER_ID = st.secrets["DRIVE_FOLDER_ID"]
 
 # SERVICE_ACCOUNT_FILE = "service_account.json"
-credentials_info = dict(st.secrets["gcp_service_account"])
+# credentials_info = dict(st.secrets["gcp_service_account"])
 
-credentials = Credentials.from_service_account_info(
-    credentials_info,
-    scopes=scopes
-)
+# credentials = Credentials.from_service_account_info(
+#     credentials_info,
+#     scopes=scopes
+# )
 
 
 # ==================================================
@@ -145,6 +149,19 @@ UNITS = [
 # GOOGLE CONNECTION
 # ==================================================
 
+# def get_credentials():
+
+#     scopes = [
+#         "https://www.googleapis.com/auth/spreadsheets",
+#         "https://www.googleapis.com/auth/drive"
+#     ]
+
+#     credentials = Credentials.from_service_account_file(
+#         SERVICE_ACCOUNT_FILE,
+#         scopes=scopes
+#     )
+
+#     return credentials
 def get_credentials():
 
     scopes = [
@@ -152,8 +169,12 @@ def get_credentials():
         "https://www.googleapis.com/auth/drive"
     ]
 
-    credentials = Credentials.from_service_account_file(
-        SERVICE_ACCOUNT_FILE,
+    credentials_info = dict(
+        st.secrets["gcp_service_account"]
+    )
+
+    credentials = Credentials.from_service_account_info(
+        credentials_info,
         scopes=scopes
     )
 
