@@ -28,6 +28,16 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
 
+# ----------------------
+pdfmetrics.registerFont(
+    TTFont(
+        "DejaVuSans",
+        "DejaVuSans.ttf"
+    )
+)
+# ----------------------
+
+
 # ==================================================
 # CONFIGURATION
 # ==================================================
@@ -427,6 +437,9 @@ def create_invoice_pdf(
     )
 
     styles = getSampleStyleSheet()
+    styles["Normal"].fontName = "DejaVuSans"
+    styles["Title"].fontName = "DejaVuSans"
+    styles["Heading2"].fontName = "DejaVuSans"
 
     elements = []
 
@@ -527,7 +540,9 @@ def create_invoice_pdf(
 
             ('GRID',(0,0),(-1,-1),1,colors.black),
 
-            ('FONTNAME',(0,0),(-1,0),'Helvetica-Bold'),
+            # ('FONTNAME',(0,0),(-1,0),'Helvetica-Bold'),
+            ('FONTNAME',(0,0),(-1,0),'DejaVuSans'),
+            ('FONTNAME',(0,1),(-1,-1),'DejaVuSans'),
 
             ('ALIGN',(2,1),(-1,-1),'CENTER'),
 
