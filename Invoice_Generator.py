@@ -247,7 +247,7 @@ st.subheader("Invoice Items")
 
 if "items" not in st.session_state:
 
-    st.session_state.items = [
+    st.session_state["items"] = [
         {
             "service": SERVICES[0],
             "unit": UNITS[0],
@@ -268,7 +268,7 @@ with col1:
         use_container_width=True
     ):
 
-        st.session_state.items.append(
+        st.session_state["items"].append(
             {
                 "service": SERVICES[0],
                 "unit": UNITS[0],
@@ -285,9 +285,9 @@ with col2:
         use_container_width=True
     ):
 
-        if len(st.session_state.items) > 1:
+        if len(st.session_state["items"]) > 1:
 
-            st.session_state.items.pop()
+            st.session_state["items"].pop()
 
 
 # ==================================================
@@ -299,7 +299,7 @@ invoice_items = []
 grand_total = 0
 
 for i in range(
-    len(st.session_state.items)
+    len(st.session_state["items"])
 ):
 
     st.markdown(
