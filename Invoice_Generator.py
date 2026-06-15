@@ -24,6 +24,9 @@ from reportlab.platypus import (
 
 from reportlab.lib.styles import getSampleStyleSheet
 
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+
 
 # ==================================================
 # CONFIGURATION
